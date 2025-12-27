@@ -2,67 +2,54 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Happy New Year Kitty 🐱🌹</title>
+<title>For My Queen 👑</title>
 
 <style>
 body{
     margin:0;
     height:100vh;
-    font-family:'Segoe UI',sans-serif;
-    background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+    background:radial-gradient(circle at top,#1e3c72,#2a5298);
     display:flex;
     justify-content:center;
     align-items:center;
+    font-family:'Segoe UI',sans-serif;
     overflow:hidden;
-    color:#fff;
-    text-align:center;
+    color:white;
 }
-
 .card{
-    background:rgba(0,0,0,0.55);
-    padding:30px;
-    border-radius:25px;
+    background:rgba(0,0,0,0.65);
+    padding:26px;
+    border-radius:22px;
+    text-align:center;
     width:90%;
-    max-width:460px;
-    box-shadow:0 0 40px rgba(255,255,255,0.18);
-    animation:fade 1.2s ease;
-    position:relative;
+    max-width:420px;
     z-index:10;
+    box-shadow:0 0 40px rgba(255,215,0,0.3);
 }
-
-h1{font-size:26px;margin-bottom:15px;}
-p{font-size:18px;line-height:1.75;white-space:pre-line;min-height:200px;}
-
-button,a.btn{
-    margin-top:20px;
-    padding:12px 30px;
+h2{margin-top:0}
+button{
+    padding:12px 28px;
     border:none;
     border-radius:30px;
-    background:#ff6b81;
+    background:#ff4d6d;
     color:white;
     font-size:16px;
+    margin:10px;
     cursor:pointer;
-    display:inline-block;
-    text-decoration:none;
 }
-button:hover,a.btn:hover{background:#ff4757;}
+button:hover{background:#ff758f}
 
-@keyframes fade{
-    from{opacity:0; transform:scale(0.9);}
-    to{opacity:1; transform:scale(1);}
-}
+a{text-decoration:none}
 
 /* 🌹 Roses */
 .rose{
     position:absolute;
-    opacity:0.75;
-    animation:floatRose linear infinite;
-    pointer-events:none;
+    animation:float 14s linear infinite;
+    opacity:0.8;
 }
-@keyframes floatRose{
-    0%{transform:translateY(110vh) rotate(0deg);opacity:0;}
-    20%{opacity:0.8;}
-    100%{transform:translateY(-10vh) rotate(360deg);opacity:0;}
+@keyframes float{
+    from{transform:translateY(110vh) rotate(0deg)}
+    to{transform:translateY(-10vh) rotate(360deg)}
 }
 
 /* 🎆 Fireworks */
@@ -70,212 +57,153 @@ button:hover,a.btn:hover{background:#ff4757;}
     position:absolute;
     width:6px;
     height:6px;
-    background:radial-gradient(circle,#fff,gold,orange);
+    background:gold;
     border-radius:50%;
-    box-shadow:0 0 10px gold,0 0 25px orange,0 0 45px red;
-    animation:explode 1.3s ease-out;
+    box-shadow:
+      0 0 15px gold,
+      0 0 30px orange,
+      0 0 50px red;
+    animation:boom 1.2s ease-out;
 }
-@keyframes explode{
-    from{transform:scale(0);opacity:1;}
-    to{transform:scale(18);opacity:0;}
-}
-
-/* 💡 Flash */
-.flash{
-    position:fixed;
-    inset:0;
-    background:rgba(255,255,255,0.18);
-    animation:flash 0.25s ease-out;
-    pointer-events:none;
-    z-index:5;
-}
-@keyframes flash{
-    from{opacity:0.8;}
-    to{opacity:0;}
+@keyframes boom{
+    from{transform:scale(0);opacity:1}
+    to{transform:scale(22);opacity:0}
 }
 
-.gif,.photo{
-    width:130px;
-    border-radius:15px;
-    margin:12px auto;
-    box-shadow:0 0 18px rgba(255,255,255,0.25);
+/* ❤️ Heart fireworks */
+.heart{
+    position:absolute;
+    font-size:22px;
+    animation:heartPop 1.4s ease-out;
+}
+@keyframes heartPop{
+    from{transform:scale(0);opacity:1}
+    to{transform:scale(4);opacity:0}
+}
+
+/* 👑 Crown glow */
+.crown{
+    font-size:40px;
+    animation:glow 1.6s ease-in-out infinite alternate;
+}
+@keyframes glow{
+    from{text-shadow:0 0 10px gold}
+    to{text-shadow:0 0 25px gold,0 0 45px orange}
 }
 </style>
 </head>
 
 <body>
 
-<!-- 🎵 Music -->
-<audio id="music" loop>
-  <source src="https://cdn.pixabay.com/audio/2023/03/13/audio_8f16a0e5c7.mp3" type="audio/mpeg">
+<!-- 🔊 AUDIO -->
+<audio id="bgm" loop>
+<source src="https://cdn.pixabay.com/audio/2023/03/13/audio_8f16a0e5c7.mp3">
 </audio>
 
-<!-- 🎆 Crackers sound -->
 <audio id="cracker">
-  <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_2aaf0f71df.mp3" type="audio/mpeg">
+<source src="https://cdn.pixabay.com/audio/2023/08/16/audio_firework_pop.mp3">
 </audio>
 
-<div class="card" id="content">
-<h1>🎆 Happy New Year Kitty 🐱🌹</h1>
-<p id="text"></p>
-<button onclick="start()">Start 🎵</button>
+<div class="card" id="card">
+<h2>Tap to Begin 🔊</h2>
+<p>Celebration starts after tap 🎉</p>
+<button onclick="unlock()">Start 💖</button>
 </div>
 
 <script>
-const content=document.getElementById("content");
-const music=document.getElementById("music");
+const card=document.getElementById("card");
+const bgm=document.getElementById("bgm");
 const cracker=document.getElementById("cracker");
 
-/* 🌹 Infinite Roses */
+/* 🌹 Infinite roses */
 setInterval(()=>{
-    const rose=document.createElement("img");
-    rose.src="https://pngimg.com/uploads/rose/rose_PNG66729.png";
-    rose.className="rose";
-    rose.style.left=Math.random()*100+"vw";
-    rose.style.width=30+Math.random()*25+"px";
-    rose.style.animationDuration=10+Math.random()*10+"s";
-    document.body.appendChild(rose);
-    setTimeout(()=>rose.remove(),22000);
+    const r=document.createElement("img");
+    r.src="https://pngimg.com/uploads/rose/rose_PNG66729.png";
+    r.className="rose";
+    r.style.left=Math.random()*100+"vw";
+    r.style.width=30+Math.random()*20+"px";
+    document.body.appendChild(r);
+    setTimeout(()=>r.remove(),15000);
 },900);
 
-/* 🎆 Fireworks + sound + flash */
+/* 🔓 Unlock audio */
+function unlock(){
+    bgm.play();
+    bgm.volume=0.6;
+    cracker.volume=1;
+
+    card.innerHTML=`
+    <h2>One Question 💎</h2>
+    <p>
+    Will you be my asset,<br>
+    which I never want to be depreciated?<br><br>
+    Will you be my queen? 👑
+    </p>
+    <button onclick="yes()">YES 💖</button>
+    <button onclick="no()">NO 🌙</button>
+    `;
+}
+
+/* 🎆 Fireworks */
 function fireworks(){
-    cracker.currentTime=0;
-    cracker.play();
-
-    const flash=document.createElement("div");
-    flash.className="flash";
-    document.body.appendChild(flash);
-    setTimeout(()=>flash.remove(),300);
-
-    for(let i=0;i<25;i++){
+    for(let i=0;i<35;i++){
         const f=document.createElement("div");
         f.className="firework";
         f.style.left=Math.random()*100+"vw";
         f.style.top=Math.random()*100+"vh";
         document.body.appendChild(f);
-        setTimeout(()=>f.remove(),1300);
+        setTimeout(()=>f.remove(),1200);
     }
 }
 
-/* ✍️ Typing */
-function typeText(el,text,i=0){
-    if(i<text.length){
-        el.innerHTML+=text.charAt(i);
-        setTimeout(()=>typeText(el,text,i+1),55);
+/* ❤️ Hearts */
+function hearts(){
+    for(let i=0;i<20;i++){
+        const h=document.createElement("div");
+        h.className="heart";
+        h.innerHTML="❤️";
+        h.style.left=Math.random()*100+"vw";
+        h.style.top=Math.random()*100+"vh";
+        document.body.appendChild(h);
+        setTimeout(()=>h.remove(),1400);
     }
 }
 
-/* Intro */
-typeText(text,
-"Naya saal aa gaya 🌙\nAur sabse pehle…\nmain tumhe dil se wish karna chahta tha 🌸");
-
-function start(){
-    music.volume=0.6;
-    music.play();
-    content.innerHTML=`
-    <h1>Kitty 🐱✨</h1>
-    <img class="gif" src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif">
-    <p id="t1"></p>
-    <button onclick="next2()">Next 🌙</button>`;
-    typeText(t1,"Tumhare saath yeh New Year\nzyada soft, calm\naur special lag raha hai 🌹");
-}
-
-function next2(){
-    content.innerHTML=`
-    <h1>Little things 🌸</h1>
-    <img class="gif" src="https://media.giphy.com/media/mlvseq9yvZhba/giphy.gif">
-    <p id="t2"></p>
-    <button onclick="next3()">Continue ✨</button>`;
-    typeText(t2,"Tum itna so jaati ho 😴\nlagta hai neend bhi tumhari fan hai 🐾\n\nAur non-veg ka pyaar 🍗\nbilkul tum jaisa hi — pure joy 🌙");
-}
-
-function next3(){
+/* YES */
+function yes(){
+    cracker.currentTime=0;
+    cracker.play();
     fireworks();
-    content.innerHTML=`
-    <h1>I love you ❤️</h1>
-    <p id="t3"></p>
-    <button onclick="next4()">Read this 🌹</button>`;
-    typeText(t3,"I love you.\n\nAur main chahta hoon\nyeh naya saal\nmain tumhare saath shuru karun 🌙");
-}
+    hearts();
 
-function next4(){
-    content.innerHTML=`
-    <h1>For you 🌸</h1>
-    <p id="letter"></p>
-    <button onclick="next5()">One more thing 🐱</button>`;
-    typeText(letter,
-"Dear Kitty,\n\nTumhari thand pasand,\nmountains ka pyaar,\naur cats ke liye softness 🐱\nmujhe tumhare aur paas laata hai.\n\nTum overthink karti ho,\npar main samajhta hoon.\nHum dono CA kar rahe hain,\nek hi struggle,\nek hi sapna.\n\nTumhare saath future\nscary nahi,\nbalki comforting lagta hai 🌙\n\n— Omkar");
-}
-
-function next5(){
-    fireworks();
-    content.innerHTML=`
-    <h1>I love you ❤️</h1>
-    <p>Ek baar phir…\ndil se ❤️</p>
-    <button onclick="next6()">Puku 🐾</button>`;
-}
-
-function next6(){
-    content.innerHTML=`
-    <h1>Puku 🐱</h1>
-    <img class="photo" src="https://github.com/omkarchoudhary421-netizen/From-OM-to-Kitty-/blob/main/WhatsApp%20Image%202025-12-26%20at%208.07.13%20PM%20(1).jpeg?raw=true">
+    card.innerHTML=`
+    <div class="crown">👑</div>
+    <h2>You said YES 💖</h2>
     <p>
-    Hi Kitty di 😊\n
-    Bhaiya aapko bahut pasand karte hain.\n
-    Aap unke liye bahut special ho 🌸
-    </p>
-    <button onclick="next7()">Last 🌙</button>`;
-}
-
-/* 👑 Last Question */
-function next7(){
-    fireworks();
-    content.innerHTML=`
-    <h1>One last question 🌙</h1>
-    <p style="font-size:17px;line-height:1.8;">
-    Will you be my asset,<br>
-    which I never want to be depreciated? 💎<br><br>
-    Will you be my queen? 👑
-    </p>
-    <button onclick="yesAnswer()">YES 💖</button>
-    <button onclick="noAnswer()" style="background:#57606f;margin-left:10px;">NO 🌙</button>
-    `;
-}
-
-/* ✅ YES / NO handlers */
-function yesAnswer(){
-    fireworks();
-    fireworks();
-    content.innerHTML=`
-    <h1>You said YES 💖👑</h1>
-    <p>
-    Then it’s settled 🌙<br><br>
     I promise to value you,<br>
     respect you,<br>
-    and never let you feel depreciated 💎<br><br>
-    My queen 👑❤️
+    and never let you feel depreciated 💎
     </p>
-    <a class="btn" href="https://wa.me/918271105489">Message me 💬</a>
+    <a href="https://wa.me/918271105489">
+      <button>Message Me 💬</button>
+    </a>
     `;
 }
 
-function noAnswer(){
-    content.innerHTML=`
-    <h1>It’s okay 🌸</h1>
+/* NO */
+function no(){
+    card.innerHTML=`
+    <h2>It’s okay 🌸</h2>
     <p>
-    Thank you for being honest 🌙<br><br>
-    Some bonds don’t need labels<br>
-    to stay meaningful ✨<br><br>
-    I still respect you,<br>
-    and I’m grateful you read till here 🌸
+    Thank you for being honest 🌙<br>
+    I respect you always ✨
     </p>
-    <a class="btn" href="https://wa.me/918271105489">Talk to me 💬</a>
+    <a href="https://wa.me/918271105489">
+      <button>Talk to Me 💬</button>
+    </a>
     `;
 }
 </script>
 
 </body>
 </html>
-
-    
