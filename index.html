@@ -194,6 +194,18 @@ content.innerHTML=`
 <a class="btn" href="https://wa.me/918271105489">Message Me 💬</a>`;
 }
 
+<button onclick="testSound()" style="position:fixed;bottom:20px;left:20px;z-index:9999;">
+TEST SOUND 🔊
+</button>
+
+<script>
+function testSound(){
+  const a = new Audio("https://cdn.pixabay.com/audio/2023/03/13/audio_8f16a0e5c7.mp3");
+  a.play();
+}
+</script>
+
+
 /* NO */
 function no(){
 content.innerHTML=`
@@ -205,3 +217,4 @@ content.innerHTML=`
 
 </body>
 </html>
+
