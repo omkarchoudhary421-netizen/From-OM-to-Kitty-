@@ -45,7 +45,6 @@ button,a.btn{
     display:inline-block;
     text-decoration:none;
 }
-
 button:hover,a.btn:hover{background:#ff4757;}
 
 @keyframes fade{
@@ -53,34 +52,46 @@ button:hover,a.btn:hover{background:#ff4757;}
     to{opacity:1; transform:scale(1);}
 }
 
-/* Roses */
+/* 🌹 Roses */
 .rose{
     position:absolute;
-    width:40px;
-    opacity:0.7;
-    animation:floatRose 14s linear infinite;
+    opacity:0.75;
+    animation:floatRose linear infinite;
     pointer-events:none;
 }
-
 @keyframes floatRose{
-    0%{transform:translateY(110vh) rotate(0deg); opacity:0;}
-    20%{opacity:0.7;}
-    100%{transform:translateY(-10vh) rotate(360deg); opacity:0;}
+    0%{transform:translateY(110vh) rotate(0deg);opacity:0;}
+    20%{opacity:0.8;}
+    100%{transform:translateY(-10vh) rotate(360deg);opacity:0;}
 }
 
-/* Fireworks */
+/* 🎆 Fireworks */
 .firework{
     position:absolute;
     width:6px;
     height:6px;
-    background:gold;
+    background:radial-gradient(circle,#fff,gold,orange);
     border-radius:50%;
-    animation:explode 1.2s ease-out infinite;
+    box-shadow:0 0 10px gold,0 0 25px orange,0 0 45px red;
+    animation:explode 1.3s ease-out;
 }
-
 @keyframes explode{
     from{transform:scale(0);opacity:1;}
-    to{transform:scale(15);opacity:0;}
+    to{transform:scale(18);opacity:0;}
+}
+
+/* 💡 Flash */
+.flash{
+    position:fixed;
+    inset:0;
+    background:rgba(255,255,255,0.18);
+    animation:flash 0.25s ease-out;
+    pointer-events:none;
+    z-index:5;
+}
+@keyframes flash{
+    from{opacity:0.8;}
+    to{opacity:0;}
 }
 
 .gif,.photo{
@@ -94,8 +105,14 @@ button:hover,a.btn:hover{background:#ff4757;}
 
 <body>
 
+<!-- 🎵 Music -->
 <audio id="music" loop>
   <source src="https://cdn.pixabay.com/audio/2023/03/13/audio_8f16a0e5c7.mp3" type="audio/mpeg">
+</audio>
+
+<!-- 🎆 Crackers sound -->
+<audio id="cracker">
+  <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_2aaf0f71df.mp3" type="audio/mpeg">
 </audio>
 
 <div class="card" id="content">
@@ -105,29 +122,43 @@ button:hover,a.btn:hover{background:#ff4757;}
 </div>
 
 <script>
-// Roses
+const content=document.getElementById("content");
+const music=document.getElementById("music");
+const cracker=document.getElementById("cracker");
+
+/* 🌹 Infinite Roses */
 setInterval(()=>{
     const rose=document.createElement("img");
     rose.src="https://pngimg.com/uploads/rose/rose_PNG66729.png";
     rose.className="rose";
     rose.style.left=Math.random()*100+"vw";
-    rose.style.animationDuration=12+Math.random()*8+"s";
+    rose.style.width=30+Math.random()*25+"px";
+    rose.style.animationDuration=10+Math.random()*10+"s";
     document.body.appendChild(rose);
-    setTimeout(()=>rose.remove(),20000);
-},1200);
+    setTimeout(()=>rose.remove(),22000);
+},900);
 
-// Fireworks
+/* 🎆 Fireworks + sound + flash */
 function fireworks(){
-    for(let i=0;i<12;i++){
+    cracker.currentTime=0;
+    cracker.play();
+
+    const flash=document.createElement("div");
+    flash.className="flash";
+    document.body.appendChild(flash);
+    setTimeout(()=>flash.remove(),300);
+
+    for(let i=0;i<25;i++){
         const f=document.createElement("div");
         f.className="firework";
         f.style.left=Math.random()*100+"vw";
         f.style.top=Math.random()*100+"vh";
         document.body.appendChild(f);
-        setTimeout(()=>f.remove(),1200);
+        setTimeout(()=>f.remove(),1300);
     }
 }
 
+/* ✍️ Typing */
 function typeText(el,text,i=0){
     if(i<text.length){
         el.innerHTML+=text.charAt(i);
@@ -135,85 +166,116 @@ function typeText(el,text,i=0){
     }
 }
 
+/* Intro */
 typeText(text,
 "Naya saal aa gaya 🌙\nAur sabse pehle…\nmain tumhe dil se wish karna chahta tha 🌸");
 
 function start(){
-music.play();
-content.innerHTML=`
-<h1>Kitty 🐱✨</h1>
-<img class="gif" src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif">
-<p id="t1"></p>
-<button onclick="next2()">Next 🌙</button>`;
-typeText(t1,
-"Tumhare saath yeh New Year\nzyada soft, calm\naur special lag raha hai 🌹");
+    music.volume=0.6;
+    music.play();
+    content.innerHTML=`
+    <h1>Kitty 🐱✨</h1>
+    <img class="gif" src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif">
+    <p id="t1"></p>
+    <button onclick="next2()">Next 🌙</button>`;
+    typeText(t1,"Tumhare saath yeh New Year\nzyada soft, calm\naur special lag raha hai 🌹");
 }
 
 function next2(){
-content.innerHTML=`
-<h1>Little things 🌸</h1>
-<img class="gif" src="https://media.giphy.com/media/mlvseq9yvZhba/giphy.gif">
-<p id="t2"></p>
-<button onclick="next3()">Continue ✨</button>`;
-typeText(t2,
-"Tum itna so jaati ho 😴\nlagta hai neend bhi tumhari fan hai 🐾\n\nAur non-veg ka pyaar 🍗\nbilkul tum jaisa hi — pure joy 🌙");
+    content.innerHTML=`
+    <h1>Little things 🌸</h1>
+    <img class="gif" src="https://media.giphy.com/media/mlvseq9yvZhba/giphy.gif">
+    <p id="t2"></p>
+    <button onclick="next3()">Continue ✨</button>`;
+    typeText(t2,"Tum itna so jaati ho 😴\nlagta hai neend bhi tumhari fan hai 🐾\n\nAur non-veg ka pyaar 🍗\nbilkul tum jaisa hi — pure joy 🌙");
 }
 
 function next3(){
-content.innerHTML=`
-<h1>I love you ❤️</h1>
-<p id="t3"></p>
-<button onclick="next4()">Read this 🌹</button>`;
-typeText(t3,
-"I love you.\n\nAur main chahta hoon\nyeh naya saal\nmain tumhare saath shuru karun 🌙");
+    fireworks();
+    content.innerHTML=`
+    <h1>I love you ❤️</h1>
+    <p id="t3"></p>
+    <button onclick="next4()">Read this 🌹</button>`;
+    typeText(t3,"I love you.\n\nAur main chahta hoon\nyeh naya saal\nmain tumhare saath shuru karun 🌙");
 }
 
 function next4(){
-content.innerHTML=`
-<h1>For you 🌸</h1>
-<p id="letter"></p>
-<button onclick="next5()">One more thing 🐱</button>`;
-typeText(letter,
+    content.innerHTML=`
+    <h1>For you 🌸</h1>
+    <p id="letter"></p>
+    <button onclick="next5()">One more thing 🐱</button>`;
+    typeText(letter,
 "Dear Kitty,\n\nTumhari thand pasand,\nmountains ka pyaar,\naur cats ke liye softness 🐱\nmujhe tumhare aur paas laata hai.\n\nTum overthink karti ho,\npar main samajhta hoon.\nHum dono CA kar rahe hain,\nek hi struggle,\nek hi sapna.\n\nTumhare saath future\nscary nahi,\nbalki comforting lagta hai 🌙\n\n— Omkar");
 }
 
 function next5(){
-content.innerHTML=`
-<h1>I love you ❤️</h1>
-<p>Ek baar phir…\ndil se ❤️</p>
-<button onclick="next6()">Puku 🐾</button>`;
+    fireworks();
+    content.innerHTML=`
+    <h1>I love you ❤️</h1>
+    <p>Ek baar phir…\ndil se ❤️</p>
+    <button onclick="next6()">Puku 🐾</button>`;
 }
 
 function next6(){
-content.innerHTML=`
-<h1>Puku 🐱</h1>
-<img class="photo" src=https://github.com/omkarchoudhary421-netizen/From-OM-to-Kitty-/blob/main/WhatsApp%20Image%202025-12-26%20at%208.07.13%20PM%20(1).jpeg?raw=true
-<p>
-Hi Kitty di 😊\n
-Bhaiya aapko bahut pasand karte hain.\n
-Aap unke liye bahut special ho 🌸
-</p>
-<button onclick="next7()">Last 🌙</button>`;
+    content.innerHTML=`
+    <h1>Puku 🐱</h1>
+    <img class="photo" src="https://github.com/omkarchoudhary421-netizen/From-OM-to-Kitty-/blob/main/WhatsApp%20Image%202025-12-26%20at%208.07.13%20PM%20(1).jpeg?raw=true">
+    <p>
+    Hi Kitty di 😊\n
+    Bhaiya aapko bahut pasand karte hain.\n
+    Aap unke liye bahut special ho 🌸
+    </p>
+    <button onclick="next7()">Last 🌙</button>`;
 }
 
+/* 👑 Last Question */
 function next7(){
-fireworks();
-content.innerHTML=`
-<h1>From Puku 🐾</h1>
-<img class="photo" src=https://github.com/omkarchoudhary421-netizen/From-OM-to-Kitty-/blob/main/WhatsApp%20Image%202025-12-26%20at%208.07.13%20PM.jpeg?raw=true
-<p>
-Hi Kitty di 😊\n
-Bas itna kehna tha\nke aap bhaiya ke liye\nbahut important ho 🌸\n
-Aur mujhe bhi aap achhi lagti ho 🐱✨
-</p>
-<p style="font-size:16px;margin-top:15px;">
-Reply when you feel ready 🌙  
-</p>
-<a class="btn" href="https://wa.me/WHATSAPP_NUMBER_HERE">Message me 💬</a>`;
+    fireworks();
+    content.innerHTML=`
+    <h1>One last question 🌙</h1>
+    <p style="font-size:17px;line-height:1.8;">
+    Will you be my asset,<br>
+    which I never want to be depreciated? 💎<br><br>
+    Will you be my queen? 👑
+    </p>
+    <button onclick="yesAnswer()">YES 💖</button>
+    <button onclick="noAnswer()" style="background:#57606f;margin-left:10px;">NO 🌙</button>
+    `;
+}
+
+/* ✅ YES / NO handlers */
+function yesAnswer(){
+    fireworks();
+    fireworks();
+    content.innerHTML=`
+    <h1>You said YES 💖👑</h1>
+    <p>
+    Then it’s settled 🌙<br><br>
+    I promise to value you,<br>
+    respect you,<br>
+    and never let you feel depreciated 💎<br><br>
+    My queen 👑❤️
+    </p>
+    <a class="btn" href="https://wa.me/918271105489">Message me 💬</a>
+    `;
+}
+
+function noAnswer(){
+    content.innerHTML=`
+    <h1>It’s okay 🌸</h1>
+    <p>
+    Thank you for being honest 🌙<br><br>
+    Some bonds don’t need labels<br>
+    to stay meaningful ✨<br><br>
+    I still respect you,<br>
+    and I’m grateful you read till here 🌸
+    </p>
+    <a class="btn" href="https://wa.me/918271105489">Talk to me 💬</a>
+    `;
 }
 </script>
 
 </body>
 </html>
 
-
+    
